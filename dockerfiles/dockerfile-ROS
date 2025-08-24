@@ -1,0 +1,31 @@
+# 基础镜像：带 rviz/rviz_plugin 的 ROS1 Kinetic 全家桶
+FROM osrf/ros:kinetic-desktop-full
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+# X11，openGL测试工具
+# gedit: 图形文本编辑器，用于在GUI环境中编辑文件
+# x11-apps: X11应用程序包，包含xeyes等X11测试工具
+# mesa-utils: Mesa图形工具，包含glxgears等OpenGL测试程序
+# dbus-x11: D-Bus X11支持
+# echo source: 将ROS环境初始化脚本添加到bash配置中
+# rm -rf: 清理apt缓存文件以减小镜像大小
+# dconf-service\
+RUN apt-get update && apt-get install -y \
+    gedit \
+    x11-apps \
+    mesa-utils \
+    dbus-x11 \
+    && echo "source /opt/ros/kinetic/setup.bash" >> /etc/bash.bashrc \
+    && rm -rf /var/lib/apt/lists/*
+
+# 对远端X服务器更稳的环境变量（可按需删改）
+ENV QT_X11_NO_MITSHM=1 
+# 如需禁用直连GL，可启用：LIBGL_ALWAYS_INDIRECT=1
+# 调试用
+# ENV LIBGL_ALWAYS_INDIRECT=0
+# ENV LIBGL_DEBUG=verbose
+# ENV LIBGL_ALWAYS_SOFTWARE=1
+
+
+CMD ["bash"]
