@@ -16,6 +16,9 @@ RUN apt-get update && apt-get install -y \
     x11-apps \
     mesa-utils \
     dbus-x11 \
+    # —————————————————— #
+    libarmadillo-dev \
+    # —————————————————— #
     && echo "source /opt/ros/kinetic/setup.bash" >> /etc/bash.bashrc \
     && rm -rf /var/lib/apt/lists/*
 

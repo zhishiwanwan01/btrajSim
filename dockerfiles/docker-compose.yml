@@ -11,4 +11,11 @@ services:
       # - DISPLAY=192.168.1.104:0.0
       - DISPLAY=${DISPLAY}  
     volumes:
+      # X11 
       - /tmp/.X11-unix:/tmp/.X11-unix
+      # 代码
+      - ../Btraj:/root/catkin_ws/src/Btraj
+      - ../plan_utils:/root/catkin_ws/src/plan_utils
+      # license
+      - ../mosek:/root/mosek
+
