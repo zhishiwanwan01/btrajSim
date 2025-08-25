@@ -1,38 +1,43 @@
-# 基础镜像：带 rviz/rviz_plugin 的 ROS1 Kinetic 全家桶
-FROM osrf/ros:kinetic-desktop-full
+# 基础镜像：带 rviz/rviz_plugin 的 ROS1 Melodic 全家桶
+FROM osrf/ros:melodic-desktop-full
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-# X11，openGL测试工具
+# 安装依赖，并配置ROS环境
 # gedit: 图形文本编辑器，用于在GUI环境中编辑文件
 # x11-apps: X11应用程序包，包含xeyes等X11测试工具
 # mesa-utils: Mesa图形工具，包含glxgears等OpenGL测试程序
 # dbus-x11: D-Bus X11支持
 # echo source: 将ROS环境初始化脚本添加到bash配置中
 # rm -rf: 清理apt缓存文件以减小镜像大小
-# dconf-service\
+# rosdep: ROS依赖管理工具
+# libarmadillo-dev: Armadillo C++线性代数库 - Btraj 依赖
 RUN apt-get update && apt-get install -y \
-    gedit \
-    x11-apps \
-    mesa-utils \
-    dbus-x11 \
-    # —————————————————— #
+    gedit x11-apps mesa-utils dbus-x11 \
     libarmadillo-dev \
-    # —————————————————— #
-    && echo "source /opt/ros/kinetic/setup.bash" >> /etc/bash.bashrc \
+    python-rosdep python-rosinstall python-rosinstall-generator python-wstool build-essential \
+    && echo "source /opt/ros/melodic/setup.bash" >> /root/.bashrc \
+    && rosdep init || true \
+    && rosdep update || true \
     && rm -rf /var/lib/apt/lists/*
 
 # 对远端X服务器更稳的环境变量（可按需删改）
 ENV QT_X11_NO_MITSHM=1 
-# 如需禁用直连GL，可启用：LIBGL_ALWAYS_INDIRECT=1
+# 如需禁用直连GL，可启用：
+# ENV LIBGL_ALWAYS_INDIRECT=1
 # 调试用
 # ENV LIBGL_ALWAYS_INDIRECT=0
 # ENV LIBGL_DEBUG=verbose
 # ENV LIBGL_ALWAYS_SOFTWARE=1
-ENV LIBGL_ALWAYS_SOFTWARE=1
-ENV MESA_LOADER_DRIVER_OVERRIDE=llvmpipe
-ENV MESA_GL_VERSION_OVERRIDE=3.3
-ENV MESA_GLSL_VERSION_OVERRIDE=330
-ENV OGRE_RTT_MODE=Copy
+# 走docker内本地渲染
+# ENV LIBGL_ALWAYS_SOFTWARE=1
+# ENV MESA_LOADER_DRIVER_OVERRIDE=llvmpipe
+# ENV MESA_GL_VERSION_OVERRIDE=3.3
+# ENV MESA_GLSL_VERSION_OVERRIDE=330
+# ENV OGRE_RTT_MODE=Copy
 
+# 工作目录
+WORKDIR /root/catkin_ws
+
+# 启动容器时默认执行的命令
 CMD ["bash"]
