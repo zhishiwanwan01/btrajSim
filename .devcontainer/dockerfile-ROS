@@ -21,21 +21,6 @@ RUN apt-get update && apt-get install -y \
     && rosdep update || true \
     && rm -rf /var/lib/apt/lists/*
 
-# 对远端X服务器更稳的环境变量（可按需删改）
-ENV QT_X11_NO_MITSHM=1 
-# 如需禁用直连GL，可启用：
-# ENV LIBGL_ALWAYS_INDIRECT=1
-# 调试用
-# ENV LIBGL_ALWAYS_INDIRECT=0
-# ENV LIBGL_DEBUG=verbose
-# ENV LIBGL_ALWAYS_SOFTWARE=1
-# 走docker内本地渲染
-# ENV LIBGL_ALWAYS_SOFTWARE=1
-# ENV MESA_LOADER_DRIVER_OVERRIDE=llvmpipe
-# ENV MESA_GL_VERSION_OVERRIDE=3.3
-# ENV MESA_GLSL_VERSION_OVERRIDE=330
-# ENV OGRE_RTT_MODE=Copy
-
 # 工作目录
 WORKDIR /root/catkin_ws
 

@@ -1,14 +1,16 @@
 services:
-  ros-kinetic:
+  ros-melodic:
     build:
       context: .
       dockerfile: dockerfile-ROS
-    image: ros-kinetic:latest
-    container_name: ros-kinetic
+    image: ros-melodic:latest
+    container_name: ros-melodic
     stdin_open: true
     tty: true
     environment:
-      - DISPLAY=192.168.1.102:0.0
+      # 对远端X服务器更稳的环境变量（可按需删改）
+      - QT_X11_NO_MITSHM=1 
+      - DISPLAY=${DISPLAY_IP:-192.168.1.104:0.0} # 自动检测Windows IP，默认值作为备用
     # - DISPLAY=${DISPLAY}  
     volumes:
       # X11 
