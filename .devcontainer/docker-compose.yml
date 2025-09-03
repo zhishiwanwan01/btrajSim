@@ -1,10 +1,11 @@
 services:
-  ros-melodic:
+  btraj-sim-melodic:
     build:
       context: .
-      dockerfile: dockerfile-ROS
-    image: ros-melodic:latest
-    container_name: ros-melodic
+      dockerfile: dockerfile
+    hostname: btrajSim-Melodic  # 可选：设置容器主机名
+    image: btraj-sim-melodic:latest
+    container_name: btraj-sim-melodic
     stdin_open: true
     tty: true
     environment:
