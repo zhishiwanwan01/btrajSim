@@ -15,6 +15,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get install -y \
     gedit x11-apps mesa-utils dbus-x11 \
     libarmadillo-dev \
+    nano vim tree \
     python-rosdep python-rosinstall python-rosinstall-generator python-wstool build-essential \
     && echo "source /opt/ros/melodic/setup.bash" >> /root/.bashrc \
     && rosdep init || true \

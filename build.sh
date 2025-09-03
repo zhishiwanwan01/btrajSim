@@ -13,5 +13,5 @@ echo "检测到的Windows IP: $WINDOWS_IP"
 # Export for docker-compose
 export DISPLAY_IP="$WINDOWS_IP:0.0"
 
-# 构建并启动 ROS Melodic 容器
-docker compose -f .devcontainer/docker-compose.yml up -d --build ros-melodic
+# 构建并启动 Btraj Sim 容器
+docker compose -f .devcontainer/docker-compose.yml up -d --build btraj-sim-melodic
