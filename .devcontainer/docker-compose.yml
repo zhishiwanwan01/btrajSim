@@ -17,8 +17,7 @@ services:
       # X11 
       - /tmp/.X11-unix:/tmp/.X11-unix
       # 代码
-      - ../Btraj:/root/catkin_ws/src/Btraj
-      - ../plan_utils:/root/catkin_ws/src/plan_utils
+      - ../catkin_ws:/root/catkin_ws
       # license
       - ../mosek:/root/mosek
 

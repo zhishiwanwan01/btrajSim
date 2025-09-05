@@ -1,0 +1,8 @@
+prefix=/root/catkin_ws/devel
+
+Name: bezier_planer
+Description: Description of bezier_planer
+Version: 0.0.1
+Cflags: -I/root/catkin_ws/src/Btraj/include
+Libs: -L${prefix}/lib 
+Requires: 

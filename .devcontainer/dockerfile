@@ -21,7 +21,8 @@ RUN apt-get update && apt-get install -y \
     && rosdep init || true \
     && rosdep update || true \
     && rm -rf /var/lib/apt/lists/*
-
+# 设置彩色提示符
+RUN echo "PS1='\\[\\e[1;35m\\]\\u@\\h\\[\\e[0;37m\\]:\\[\\e[1;33m\\]\\w\\$\\[\\e[0m\\] '" >> /root/.bashrc
 # 工作目录
 WORKDIR /root/catkin_ws
 

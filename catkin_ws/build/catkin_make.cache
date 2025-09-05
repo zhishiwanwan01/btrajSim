@@ -1,0 +1,2 @@
+Btraj:plan_utils/multi_map_server:plan_utils/odom_visualization:plan_utils/pose_utils:plan_utils/quadrotor_msgs:plan_utils/rviz_plugins:plan_utils/waypoint_generator
+-DCATKIN_DEVEL_PREFIX=/root/catkin_ws/devel -DCMAKE_INSTALL_PREFIX=/root/catkin_ws/install -G Unix Makefiles
