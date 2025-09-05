@@ -6,6 +6,7 @@ services:
     hostname: btrajSim-Melodic  # 可选：设置容器主机名
     image: btraj-sim-melodic:latest
     container_name: btraj-sim-melodic
+    user: "${UID:-1000}:${GID:-1000}"  # 使用当前用户的UID和GID运行容器，避免权限问题
     stdin_open: true
     tty: true
     environment:
