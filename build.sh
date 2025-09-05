@@ -13,10 +13,6 @@ echo "检测到的Windows IP: $WINDOWS_IP"
 # Export for docker-compose
 export DISPLAY_IP="$WINDOWS_IP:0.0"
 
-# 设置用户权限同步
-export UID=$(id -u)
-export GID=$(id -g)
-echo "设置用户权限: UID=$UID, GID=$GID"
 
 # 构建并启动 Btraj Sim 容器
 docker compose -f .devcontainer/docker-compose.yml up -d --build btraj-sim-melodic
