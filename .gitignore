@@ -46,3 +46,7 @@ CLAUDE.md
 
 # license
 .lic
+
+# catkin_ws build files
+build/
+devel/
