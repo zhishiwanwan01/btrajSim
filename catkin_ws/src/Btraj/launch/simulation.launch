@@ -120,7 +120,8 @@ ROS背景知识：
       <param name="planning/is_limit_acc"  value="false"/>  <!-- 禁用加速度约束(依赖速度限制) -->
 
       <!-- 算法选择：关键参数 -->
-      <param name="planning/is_use_fm"     value="true" />  <!-- true=Fast Marching*, false=A*算法 -->
+      <param name="planning/is_use_fm"     value="false" />  <!-- true=Fast Marching*, 
+      false=A*算法 -->
       <!-- Fast Marching*: 更适合平滑路径，考虑速度场 -->
       <!-- A*: 计算更快，基于网格的离散搜索 -->
 
