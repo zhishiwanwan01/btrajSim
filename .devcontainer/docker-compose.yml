@@ -1,3 +1,5 @@
+name: btraj-ros
+
 services:
   btraj-sim-melodic:
     build:
