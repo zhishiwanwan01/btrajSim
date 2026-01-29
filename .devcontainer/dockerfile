@@ -23,9 +23,6 @@ RUN apt-get update && apt-get install -y \
     && rosdep update || true \
     && rm -rf /var/lib/apt/lists/*
 
-# 自动加载编译后的工作空间环境，存在才 source 避免报错
-RUN echo "if [ -f /root/catkin_ws/devel/setup.bash ]; then source /root/catkin_ws/devel/setup.bash; fi" >> /root/.bashrc
-
 # 安装 ripgrep
 RUN curl -LO https://github.com/BurntSushi/ripgrep/releases/download/14.1.1/ripgrep_14.1.1-1_amd64.deb \
     && dpkg -i ripgrep_14.1.1-1_amd64.deb \
@@ -55,6 +52,9 @@ RUN groupadd -g $GID devuser 2>/dev/null || true \
     && chmod 0440 /etc/sudoers.d/devuser
 
 USER devuser
+
+# 自动加载编译后的工作空间环境，存在才 source 避免报错
+RUN echo "if [ -f /root/catkin_ws/devel/setup.bash ]; then source /root/catkin_ws/devel/setup.bash; fi" >> /root/.bashrc
 
 # 工作目录
 WORKDIR /root/catkin_ws
