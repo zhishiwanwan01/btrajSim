@@ -999,10 +999,10 @@ void trajPlanning() {
     visExpNode(searchedNodes);
 
     // Debug 在生成路径后立刻 ==============================================
-    ROS_WARN(
-        "Global path generated and visualized! Press ENTER to continue...");
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-    std::cin.get();
+    // ROS_WARN(
+    //     "Global path generated and visualized! Press ENTER to continue...");
+    // std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    // std::cin.get();
     // ====================================================================
 
     ros::Time time_bef_corridor = ros::Time::now();
