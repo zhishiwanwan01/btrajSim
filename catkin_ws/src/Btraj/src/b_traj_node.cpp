@@ -295,6 +295,8 @@ void rcvPointCloudCallBack(const sensor_msgs::PointCloud2& pointcloud_map) {
   _inf_map_vis_pub.publish(inflateMap);
   _local_map_vis_pub.publish(localMap);
 
+  // Debug: 保存原始点云 =====================================================
+
   ros::Time time_3 = ros::Time::now();
   // ROS_WARN("Time in receving the map is %f", (time_3 - time_1).toSec());
 
@@ -998,12 +1000,24 @@ void trajPlanning() {
     visGridPath(gridPath);
     visExpNode(searchedNodes);
 
-    // Debug 在生成路径后立刻 ==============================================
+    // Debug: 在生成路径后立刻 ==============================================
     // ROS_WARN(
     //     "Global path generated and visualized! Press ENTER to continue...");
     // std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     // std::cin.get();
     // ====================================================================
+
+    // Debug: 输出路径 ========================================================
+    {
+      ofstream ofs("/root/catkin_ws/data/btraj_path.txt");
+      for (const auto& pt : gridPath) {
+        ofs << pt(0) << " " << pt(1) << " " << pt(2) << std::endl;
+      }
+      ofs.close();
+      ROS_INFO("Saved path (%zu points) to /root/catkin_ws/data/btraj_path.txt",
+               gridPath.size());
+    }
+    //   ====================================================================
 
     ros::Time time_bef_corridor = ros::Time::now();
     // 生成立方体走廊
