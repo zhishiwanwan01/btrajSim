@@ -31,6 +31,10 @@
 #include "quadrotor_msgs/PolynomialTrajectory.h"
 #include "quadrotor_msgs/PositionCommand.h"
 
+// Debug: 补零需要
+#include <iomanip>
+#include <sstream>
+
 using namespace std;
 using namespace Eigen;
 using namespace sdf_tools;
@@ -89,6 +93,9 @@ TrajectoryGenerator _trajectoryGenerator;
 CollisionMapGrid* collision_map = new CollisionMapGrid();
 CollisionMapGrid* collision_map_local = new CollisionMapGrid();
 gridPathFinder* path_finder = new gridPathFinder();
+
+// Debug: for debug and data export
+pcl::PointCloud<pcl::PointXYZ> g_cloud_local;
 
 void rcvWaypointsCallback(const nav_msgs::Path& wp);
 void rcvPointCloudCallBack(const sensor_msgs::PointCloud2& pointcloud_map);
@@ -295,10 +302,12 @@ void rcvPointCloudCallBack(const sensor_msgs::PointCloud2& pointcloud_map) {
   _inf_map_vis_pub.publish(inflateMap);
   _local_map_vis_pub.publish(localMap);
 
-  // Debug: 保存原始点云 =====================================================
-
   ros::Time time_3 = ros::Time::now();
   // ROS_WARN("Time in receving the map is %f", (time_3 - time_1).toSec());
+
+  // Debug: 把cloud_local存为全局变量，方便后续调试和数据导出 ===
+  g_cloud_local = cloud_local;
+  // ================================================
 
   // 若更新后的地图令当前轨迹不安全则触发重新规划。
   if (checkExecTraj() == true)
@@ -1009,13 +1018,32 @@ void trajPlanning() {
 
     // Debug: 输出路径 ========================================================
     {
-      ofstream ofs("/root/catkin_ws/data/btraj_path.txt");
-      for (const auto& pt : gridPath) {
-        ofs << pt(0) << " " << pt(1) << " " << pt(2) << std::endl;
-      }
-      ofs.close();
-      ROS_INFO("Saved path (%zu points) to /root/catkin_ws/data/btraj_path.txt",
-               gridPath.size());
+      // ofstream ofs("/root/catkin_ws/data/btraj_path.txt");
+      // for (const auto& pt : gridPath) {
+      //   ofs << pt(0) << " " << pt(1) << " " << pt(2) << std::endl;
+      // }
+      // ofs.close();
+      // ROS_INFO("Saved path (%zu points) to
+      // /root/catkin_ws/data/btraj_path.txt",
+      //          gridPath.size());
+
+      static int save_id = 0;
+      ++save_id;
+
+      ostringstream oss_path, oss_obs;
+      oss_path << "/root/catkin_ws/data/btraj_path_" << setfill('0') << setw(3) << save_id << ".txt";
+      oss_obs << "/root/catkin_ws/data/btraj_obs_" << setfill('0') << setw(3) << save_id << ".txt";
+
+      ofstream ofs_path(oss_path.str());
+      for (const auto& pt : gridPath)
+        ofs_path << pt(0) << " " << pt(1) << " " << pt(2) << "\n";
+
+      ofstream ofs_obs(oss_obs.str());
+      for (const auto& pt : g_cloud_local.points)
+        ofs_obs << pt.x << " " << pt.y << " " << pt.z << "\n";
+
+      ROS_INFO("Saved #%03d: path (%zu pts) and obs (%zu pts)",
+               save_id, gridPath.size(), g_cloud_local.points.size());
     }
     //   ====================================================================
 
